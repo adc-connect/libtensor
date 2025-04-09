@@ -48,7 +48,7 @@ jobs:
       shell: bash
       run: |
         ccache --max-size 2G
-        CC=/usr/local/opt/llvm/bin/clang CXX=/usr/local/opt/llvm/bin/clang++ ./build_libtensor.py -v -d ${{runner.workspace}}/build --install ${{runner.workspace}}/install --type Release --features libxm
+        CC=/opt/homebrew/opt/llvm/bin/clang CXX=/opt/homebrew/opt/llvm/bin/clang++ ./build_libtensor.py -v -d ${{runner.workspace}}/build --install ${{runner.workspace}}/install --type Release --features libxm
 
     - name: Test
       working-directory: ${{runner.workspace}}/build
