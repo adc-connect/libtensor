@@ -58,6 +58,7 @@ jobs:
     - name: Bundle tarball
       shell: bash
       run: |
+        python -m pip install --user -U setuptools
         ./scripts/pack_release.py ${{runner.workspace}}/install
 
     - name: Upload tarball as artefact
