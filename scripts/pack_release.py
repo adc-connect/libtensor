@@ -28,8 +28,14 @@ git_revision = subprocess.check_output(["git", "rev-parse", "HEAD"],
                                        universal_newlines=True).strip()
 git_tag = subprocess.check_output(["git", "tag", "--points-at", git_revision],
                                   universal_newlines=True).strip()
-if not re.match("^v([0-9.]+)$", git_tag):
+if git_tag.startswith(f"v{ltl_version}"):
+    # allow any tag of the form v[version][suffix] with an arbitrary suffix
+    # However, the CI requires that there are no '-' in the suffix
+    ltl_version = git_tag.replace('-', '_')
+else:
     ltl_version = ltl_version + ".dev"
 
 filename = f"libtensorlight-{ltl_version}-{platform}.tar.gz"
-subprocess.check_call(["tar", "-C", install_dir, "-czf", filename, "include", "lib"])
+subprocess.check_call(
+    ["tar", "-C", install_dir, "-czf", filename, "include", "lib"]
+)
